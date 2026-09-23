@@ -175,18 +175,7 @@
                 <h3>Defect Sense</h3>
               </div>
               <p>
-                Two-stage industrial visual inspection on the MVTec AD benchmark: a
-                PatchCore anomaly detector (0.982 mean image AUROC across all 15
-                categories) triages every image, and a locally served vision-language
-                model (Qwen3-VL via Ollama) adjudicates flagged cases — assigning a
-                defect type and writing a grounded inspection report. Built the model
-                boundary defensively: JSON-schema-constrained output, taxonomy
-                validation, bounding-box clamping, and fail-safe parsing. A
-                reproducible evaluation harness measures the real trade-offs —
-                end-to-end precision/recall, defect-type accuracy, per-stage latency,
-                and VLM call rate — including an honest negative result where the
-                two-stage design cut cost but over-suppressed recall. FastAPI
-                inspection console; accelerator-free CI.
+                Industrial visual inspection built with PatchCore, Anomalib, and FastAPI. Detects anomalies and highlights suspect regions, with optional local Qwen3-VL reports through Ollama that cannot override detector decisions. On a 63-image MVTec AD bottle evaluation with separate training and calibration sets, detected all 48 defects with no false alarms across 15 clean images, averaging 0.30 seconds per image on an RTX 4070 Laptop GPU. Features schema-constrained VLM output, taxonomy validation, fail-safe parsing, and a reproducible evaluation harness for detection, localization, and inference cost. Includes an interactive inspection console and 145 accelerator-independent tests. Current focus: sharper localization and validation across more product categories.
               </p>
               <div class="project-links">
                 <a

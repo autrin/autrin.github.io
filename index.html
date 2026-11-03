@@ -9,6 +9,8 @@
       content="Autrin Hakimi — Software Systems Engineer in Phoenix, AZ. Python, full-stack, robotics, and AI/ML for semiconductor manufacturing."
     />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="companion.css" />
+    <link rel="stylesheet" href="personal.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
       rel="stylesheet"
@@ -31,6 +33,7 @@
           <a href="#home" class="nav-link active">Home</a>
           <a href="#projects" class="nav-link">Projects</a>
           <a href="#about" class="nav-link">About</a>
+          <a href="#personal" class="nav-link">Off the clock</a>
           <a href="#contact" class="nav-link">Contact</a>
         </nav>
       </div>
@@ -71,14 +74,24 @@
               </button>
             </div>
           </div>
-          <div class="hero-visual">
-            <div class="circuit-board">
-              <div class="circuit-line"></div>
-              <div class="circuit-line"></div>
-              <div class="circuit-line"></div>
-              <div class="node"></div>
-              <div class="node"></div>
-              <div class="node"></div>
+          <div class="hero-visual autrin-studio">
+            <p class="studio-label"><span></span> A SMALL HUMAN ON THE INTERNET</p>
+            <div class="mascot-stage">
+              <span class="stage-orbit" aria-hidden="true"></span>
+              <span class="stage-note" aria-hidden="true">Actual size.*<br><small>*Not even close.</small></span>
+              <button class="hero-mascot mascot" data-pose="wave" aria-label="Say hello to Mini Autrin" title="Click to say hello"></button>
+            </div>
+            <p class="studio-speech" id="hero-speech" role="status">Hi, I'm the smaller Autrin. Same mustache.</p>
+            <fieldset class="outfit-picker"><legend>Today's outfit</legend>
+              <button type="button" class="outfit-choice" data-outfit="shorts" aria-pressed="true">Shirt + shorts</button>
+              <button type="button" class="outfit-choice" data-outfit="linen" aria-pressed="false">Shirt + linen</button>
+              <button type="button" class="outfit-choice" data-outfit="yellow" aria-pressed="false">Yellow sweater</button>
+            </fieldset>
+            <div class="studio-actions">
+              <button class="companion-action" data-action="hello">Say hello ↗</button>
+              <button class="companion-action" data-action="game">Circuit puzzle ↗</button>
+              <button class="companion-action" data-action="walk" aria-pressed="false">Take a walk ↗</button>
+              <button class="companion-action" data-action="motion" aria-pressed="false">Pause motion</button>
             </div>
           </div>
         </div>
@@ -87,6 +100,7 @@
       <section id="projects" class="projects-section">
         <div class="container">
           <h2 class="section-title">Projects</h2>
+          <p class="project-hint">Things I've built. My tiny colleague has opinions—tap him.</p>
           <div class="projects-grid">
             <div class="project-card featured">
               <div class="project-header">
@@ -435,6 +449,17 @@
         </div>
       </section>
 
+      <section id="personal" class="personal-section" aria-labelledby="personal-title">
+        <div class="container">
+          <div class="personal-intro"><div><p class="personal-kicker">OFF THE CLOCK</p><h2 id="personal-title">Beyond the screen.</h2></div><p>A sky worth stopping for. A map that makes me want to keep learning.</p></div>
+          <div class="memory-gallery"><figure class="memory-card memory-sunset"><button class="photo-open" data-caption="Worth looking up" aria-label="Enlarge: Worth looking up"><img src="assets/sunset.jpg" alt="A bell tower and trees silhouetted against a pink and blue evening sky." loading="lazy" width="1050" height="1400" /></button><figcaption>Worth looking up</figcaption></figure>
+</div>
+          <article class="curiosity-card" aria-labelledby="curiosity-title">
+            <div class="curiosity-copy"><p class="personal-kicker">ON MY WALL, FIGURATIVELY</p><h3 id="curiosity-title">A whole field.<br />Still so much to explore.</h3><p>I love this map of computer science. There’s something wonderful about seeing the connections laid out in one place.</p><div class="curiosity-links"><a href="https://www.youtube.com/watch?v=SzJ46YA_RaA" target="_blank" rel="noopener noreferrer">Watch the explanation ↗</a><a href="https://www.redbubble.com/people/DominicWalliman/shop" target="_blank" rel="noopener noreferrer">Visit the artist’s shop ↗</a></div></div>
+            <figure class="map-figure"><button class="photo-open map-open" data-caption="Map of Computer Science — Dominic Walliman / Domain of Science" aria-label="Explore the full Map of Computer Science"><img src="assets/computer-science-map.jpg" alt="Map of Computer Science by Dominic Walliman, connecting theoretical computer science, computer engineering, and applications." loading="lazy" width="2560" height="1440" /><span>Explore the full map ⤢</span></button><figcaption>Map of Computer Science · Dominic Walliman / Domain of Science</figcaption></figure>
+          </article>
+        </div>
+      </section>
       <section id="contact" class="contact-section">
         <div class="container">
           <h2 class="section-title">Get In Touch</h2>
@@ -523,6 +548,7 @@
             <a href="#home">Home</a>
             <a href="#projects">Projects</a>
             <a href="#about">About</a>
+            <a href="#personal">Off the clock</a>
             <a href="#contact">Contact</a>
           </div>
           <div class="footer-social">
@@ -549,6 +575,42 @@
       </div>
     </footer>
 
+    <aside class="companion-dock" aria-label="Mini Autrin companion">
+      <div class="companion-panel" id="companion-panel" hidden>
+        <p class="companion-eyebrow">MINI AUTRIN / FULL-SIZE CURLS</p>
+        <p id="companion-speech" role="status">I live here now. The rent is surprisingly reasonable.</p>
+        <div class="companion-actions">
+          <button class="companion-action" data-action="hello">Hello</button>
+          <button class="companion-action" data-action="game">Circuit puzzle</button>
+          <button class="companion-action" data-action="walk" aria-pressed="false">Take a walk ↗</button>
+          <button class="companion-action" data-action="motion" aria-pressed="false">Pause motion</button>
+          <button class="companion-action" id="change-outfit">Change outfit</button>
+          <button class="companion-action" id="hide-companion">Hide me</button>
+        </div>
+      </div>
+      <button class="dock-mascot mascot" data-pose="idle" id="companion-toggle" aria-label="Open Mini Autrin" aria-expanded="false" aria-controls="companion-panel"></button>
+      <span class="dock-caption" aria-hidden="true">psst. over here.</span>
+    </aside>
+    <button class="companion-restore companion-action" id="restore-companion" hidden>Bring back Mini Autrin</button>
+    <button class="roaming-autrin" id="walker" hidden aria-label="Park Mini Autrin and open his menu"><span class="walker-sprite" aria-hidden="true"></span></button>
+    <dialog class="puzzle-dialog" aria-labelledby="puzzle-title" aria-describedby="puzzle-instructions">
+      <div class="game-heading"><span class="companion-eyebrow">A VERY SMALL SIDE QUEST</span><button class="companion-action" id="close-game" aria-label="Close game">Close ×</button></div>
+      <h2 id="puzzle-title">Close the circuit.</h2>
+      <p id="puzzle-instructions">Turn all 16 lights on. Each switch flips itself and its neighbors above, below, left and right. Plan your moves. No timer.</p>
+      <p class="puzzle-status" id="puzzle-status" role="status"></p>
+      <div class="circuit-grid" id="circuit-grid" role="group" aria-label="Circuit switches, four rows and four columns"></div>
+      <p class="puzzle-keyboard">Tab or arrow keys to choose · Enter or Space to switch</p>
+      <div class="puzzle-controls"><button class="companion-action" id="undo-move">Undo</button><button class="companion-action" id="puzzle-hint">Hint</button><button class="companion-action" id="restart-game">Reset</button><button class="companion-action" id="new-puzzle">New puzzle</button></div>
+      <div class="game-footer"><span class="game-mascot mascot" data-pose="left" aria-hidden="true"></span><p id="game-comment">One switch. Five consequences. Seems familiar.</p></div>
+    </dialog>
+    <dialog class="photo-dialog" aria-labelledby="photo-title">
+      <div class="photo-toolbar"><h2 id="photo-title"></h2><button class="companion-action" id="close-photo" autofocus>Close ×</button></div>
+      <div class="photo-viewport"><img id="expanded-photo" alt="" /></div>
+      <div class="photo-toolbar"><p id="photo-help">Select the image to zoom. Scroll to explore; Escape to close.</p><button class="companion-action" id="zoom-photo" aria-pressed="false">Zoom in</button></div>
+    </dialog>
+    <script src="personal.js"></script>
     <script src="script.js"></script>
+    <script src="puzzle-core.js"></script>
+    <script src="companion.js"></script>
   </body>
 </html>

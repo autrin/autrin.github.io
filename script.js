@@ -118,7 +118,7 @@ function scrollToSection(sectionId) {
     const targetPosition = section.offsetTop - headerHeight;
     window.scrollTo({
       top: targetPosition,
-      behavior: 'smooth'
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.body.classList.contains('companion-paused') ? 'auto' : 'smooth'
     });
   }
 }

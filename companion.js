@@ -12,7 +12,7 @@
   let walking = false, heroVisible = true, hovered = false;
   let walkFrame = 0, lastTime = 0, walkX = 16, direction = 1, walkClock = 0;
   let outfit = 'shorts';
-  try { outfit = ['shorts','linen','yellow'].includes(localStorage.getItem('autrin-outfit')) ? localStorage.getItem('autrin-outfit') : 'shorts'; } catch {}
+  try { outfit = ['shorts', 'linen', 'yellow'].includes(localStorage.getItem('autrin-outfit')) ? localStorage.getItem('autrin-outfit') : 'shorts'; } catch { }
   const dialog = $('.puzzle-dialog');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   let paused = reduced.matches;
@@ -69,13 +69,13 @@
     document.querySelectorAll('.outfit-choice').forEach(button => {
       button.setAttribute('aria-pressed', String(button.dataset.outfit === value));
     });
-    try { localStorage.setItem('autrin-outfit', value); } catch {}
+    try { localStorage.setItem('autrin-outfit', value); } catch { }
   }
   chooseOutfit(outfit);
   document.querySelectorAll('.outfit-choice').forEach(button => button.addEventListener('click', () => chooseOutfit(button.dataset.outfit)));
   $('#change-outfit').addEventListener('click', () => {
-    chooseOutfit(['shorts','linen','yellow'][(['shorts','linen','yellow'].indexOf(outfit) + 1) % 3]);
-    say({shorts:'Shirt and shorts. Much more me.',linen:'Patterned shirt. Comfortable trousers. Ready.',yellow:'The yellow outfit is back.'}[outfit]);
+    chooseOutfit(['shorts', 'linen', 'yellow'][(['shorts', 'linen', 'yellow'].indexOf(outfit) + 1) % 3]);
+    say({ shorts: 'Shirt and shorts. Much more me.', linen: 'Patterned shirt. Comfortable trousers. Ready.', yellow: 'The yellow outfit is back.' }[outfit]);
   });
   function drawWalk(time) {
     if (!walking || paused || document.hidden) { lastTime = 0; walkFrame = 0; return; }
@@ -88,7 +88,7 @@
       if (walkX >= end) { walkX = end; direction = -1; }
       if (walkX <= 16) { walkX = 16; direction = 1; }
     }
-    walkX = Math.min(walkX,end);
+    walkX = Math.min(walkX, end);
     walker.style.transform = `translateX(${walkX}px)`;
     const sprite = walker.querySelector('span');
     sprite.style.transform = `scaleX(${direction})`;
@@ -179,7 +179,7 @@
   let initialBoard, board, moves = [], hinted = null;
   function renderPuzzle() {
     let count = 0;
-    grid.querySelectorAll('button').forEach((button,index) => {
+    grid.querySelectorAll('button').forEach((button, index) => {
       const on = Boolean(board & (1 << index));
       count += Number(on);
       button.classList.toggle('lit', on);
@@ -196,16 +196,16 @@
   }
   for (let i = 0; i < 16; i++) {
     const button = document.createElement('button');
-    button.className = 'circuit-switch'; button.type = 'button'; button.textContent = String(i + 1).padStart(2,'0');
+    button.className = 'circuit-switch'; button.type = 'button'; button.textContent = String(i + 1).padStart(2, '0');
     button.addEventListener('click', () => {
       if (board === puzzle.goal) return;
-      board = puzzle.press(board,i); moves.push(i); hinted = null;
+      board = puzzle.press(board, i); moves.push(i); hinted = null;
       $('#game-comment').textContent = 'A switch affects its neighbors. Think one step ahead.';
       renderPuzzle();
       if (board === puzzle.goal) $('#new-puzzle').focus();
     });
     button.addEventListener('keydown', event => {
-      const offsets = {ArrowLeft:-1,ArrowRight:1,ArrowUp:-4,ArrowDown:4};
+      const offsets = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -4, ArrowDown: 4 };
       if (!(event.key in offsets)) return;
       event.preventDefault();
       const next = i + offsets[event.key];
@@ -222,7 +222,7 @@
   }
   $('#undo-move').addEventListener('click', () => {
     if (!moves.length) return;
-    board = puzzle.press(board,moves.pop()); hinted = null; renderPuzzle();
+    board = puzzle.press(board, moves.pop()); hinted = null; renderPuzzle();
     $('#game-comment').textContent = 'A little room to rethink.';
   });
   $('#puzzle-hint').addEventListener('click', () => {

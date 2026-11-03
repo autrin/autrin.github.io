@@ -1,76 +1,566 @@
 /* Mini Autrin: six equal cells, three columns by two rows. */
-:root { --autrin-yellow: #f3c65b; --autrin-art: url('assets/mini-autrin-shorts.png'); }
-body[data-outfit="linen"] { --autrin-art: url('assets/mini-autrin-linen.png'); }
-body[data-outfit="yellow"] { --autrin-art: url('assets/mini-autrin-yellow.png'); }
-body[data-outfit="yellow"] .mascot[data-pose="idle"] { background-position: 100% 0; }
-[hidden] { display: none !important; }
-.mascot { display: block; width: 120px; height: 180px; background: var(--autrin-art) 0 0 / 300% 200% no-repeat; border: 0; padding: 0; flex-shrink: 0; }
-button.mascot { cursor: pointer; -webkit-tap-highlight-color: transparent; border-radius: 25%; }
-.mascot[data-pose="idle"] { background-position: 0 0; }
-.mascot[data-pose="wave"] { background-position: 50% 0; }
-.mascot[data-pose="wink"] { background-position: 100% 0; }
-.mascot[data-pose="left"] { background-position: 0 100%; }
-.mascot[data-pose="right"] { background-position: 50% 100%; }
-.mascot[data-pose="sleep"] { background-position: 100% 100%; }
-.companion-action { font: inherit; font-size: .85rem; color: var(--text-primary); background: #20242b; border: 1px solid #444852; border-radius: 7px; padding: .55rem .8rem; cursor: pointer; line-height: 1.4; }
-.companion-action:hover { color: var(--autrin-yellow); border-color: var(--autrin-yellow); }
-:is(.companion-action,.mascot,.circuit-switch,.outfit-choice,.roaming-autrin):focus-visible { outline: 3px solid var(--autrin-yellow); outline-offset: 5px; }
-.autrin-studio { display: block; position: relative; width: 100%; max-width: 440px; justify-self: center; text-align: center; padding: 22px 14px; border: 1px solid #39382d; border-radius: 24px; background: radial-gradient(ellipse at 50% 45%, #37302055, transparent 70%), #14171b; box-shadow: 0 24px 70px #0003; }
-.studio-label,.companion-eyebrow { font-size: .7rem; letter-spacing: .1em; color: var(--autrin-yellow); }
-.studio-label span { display: inline-block; width: 6px; height: 6px; background: var(--autrin-yellow); border-radius: 50%; margin-right: 7px; }
-.mascot-stage { position: relative; display: grid; place-items: center; height: 360px; }
-.hero-mascot { width: 240px; height: 360px; z-index: 1; transform: rotate(var(--lean,0deg)); transition: transform .3s; }
-.stage-orbit { position: absolute; width: 270px; height: 270px; border: 1px dashed #746744; border-radius: 50%; transform: rotate(-18deg) scaleY(.85); }
-.stage-note { position: absolute; top: 40px; right: 0; color: #d1bd85; font-size: .8rem; transform: rotate(9deg); z-index: 2; pointer-events: none; }
-.stage-note small { font-size: .6rem; }
-.studio-speech { min-height: 3.2em; max-width: 310px; margin: 0 auto 15px; font-size: .95rem; }
-.studio-actions { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
-.studio-actions .companion-action { background: transparent; }
-.project-hint { text-align: center; color: var(--text-secondary); margin: -1.8rem auto 2.5rem; max-width: 540px; }
-.project-card { position: relative; }
-.project-card.featured::before { position: static; align-self: flex-start; margin-bottom: 10px; }
-.project-header { padding-right: 65px; min-height: 58px; }
-.project-mascot { position: absolute; top: 4px; right: 8px; width: 60px; height: 90px; transition: transform .2s; }
-.project-card:hover .project-mascot { transform: translateY(-4px) rotate(4deg); }
-.project-card .project-aside { flex-grow: 0; padding: .6rem .75rem; margin: 0 0 1rem; border-left: 2px solid var(--autrin-yellow); color: #e6d19a; font-size: .85rem; background: #f3c65b08; }
-.companion-dock { position: fixed; right: 16px; bottom: 12px; z-index: 1100; display: flex; flex-direction: column; align-items: flex-end; pointer-events: none; }
-.companion-dock > * { pointer-events: auto; }
-.dock-mascot { width: 82px; height: 123px; filter: drop-shadow(0 5px 8px #0008); }
-.dock-caption { background: #191d24; border: 1px solid #494534; border-radius: 20px; padding: 2px 9px; color: #e8d8b1; font-size: .65rem; }
-.companion-panel { width: min(290px,calc(100vw - 32px)); background: #1a1e25; border: 1px solid #645639; border-radius: 14px; padding: 16px; box-shadow: 0 12px 45px #0007; }
-.companion-panel p + p { margin: 10px 0 14px; }
-.companion-actions { display: flex; gap: 7px; flex-wrap: wrap; }
-.companion-restore { position: fixed; bottom: 12px; right: 12px; z-index: 1100; font-size: .7rem; }
-.puzzle-dialog { width: min(640px,calc(100vw - 28px)); max-height: calc(100dvh - 28px); overflow: auto; margin: auto; border: 1px solid #75613a; border-radius: 20px; background: #14181f; color: var(--text-primary); padding: 24px; font-family: inherit; }
-.puzzle-dialog::backdrop { background: #05080cd9; backdrop-filter: blur(8px); }
-.game-heading { display: flex; gap: 12px; justify-content: space-between; align-items: center; margin-bottom: 18px; }
-.puzzle-dialog h2 { font-size: 1.6rem; line-height: 1.25; margin-bottom: 12px; }
-#puzzle-instructions { color: var(--text-secondary); font-size: .9rem; }
-.puzzle-status { color: var(--autrin-yellow); margin: 18px 0 12px; }
-.circuit-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; padding: 18px; background: linear-gradient(#16282a88,#11222688),radial-gradient(#45514d 1px,transparent 1px) 0 0 / 18px 18px; border-radius: 15px; border: 1px solid #385048; max-width: 370px; margin: auto; }
-.circuit-switch { position: relative; min-height: 52px; aspect-ratio: 1; border: 1px solid #47534e; border-radius: 9px; background: #111b19; color: #9aa9a2; font: inherit; font-size: .75rem; cursor: pointer; padding-top: 30px; transition: background .15s,box-shadow .15s; }
-.circuit-switch::before { content: ''; position: absolute; width: 15px; height: 15px; border-radius: 50%; top: 22%; left: calc(50% - 7.5px); background: #34493e; border: 1px solid #4b6356; }
-.circuit-switch.lit { background: #1c3d2b; border-color: #64a779; color: #daf1df; box-shadow: inset 0 0 22px #64c8771a; }
-.circuit-switch.lit::before { background: #a6f3ad; box-shadow: 0 0 16px #91eb9299; border-color: #d6ffdc; }
-.circuit-switch.hinted { outline: 3px dashed var(--autrin-yellow); outline-offset: 2px; }
-.circuit-switch:disabled { cursor: default; }
-.puzzle-keyboard { text-align: center; font-size: .7rem; color: var(--text-secondary); margin: 12px 0 18px; }
-.puzzle-controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-.companion-action:disabled { opacity: .45; cursor: default; }
-.outfit-picker { border: 0; margin: 0 0 18px; display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
-.outfit-picker legend { width: 100%; color: var(--text-secondary); font-size: .7rem; margin-bottom: 7px; }
-.outfit-choice { background: #171c23; color: #c1c9d3; font: inherit; font-size: .75rem; padding: 7px 9px; border: 1px solid #3a434d; border-radius: 20px; cursor: pointer; }
-.outfit-choice[aria-pressed="true"] { color: #f5d68b; background: #342e1e; border-color: #a08849; }
-.roaming-autrin { position: fixed; bottom: 8px; left: 0; z-index: 1090; width: 82px; height: 123px; border: 0; padding: 0; background: transparent; cursor: pointer; will-change: transform; }
-.walker-sprite { display: block; width: 100%; height: 100%; background: url('assets/mini-autrin-walk.png') 0 0 / 400% 300% no-repeat; filter: drop-shadow(0 3px 4px #0005); }
-body[data-outfit="linen"] .walker-sprite { background-position-y: 50%; }
-body[data-outfit="yellow"] .walker-sprite { background-position-y: 100%; }
-.game-footer { display: flex; align-items: center; gap: 10px; }
-.game-mascot { width: 65px; height: 97.5px; }
-.game-footer p { flex: 1; font-size: .85rem; color: #dbc58f; }
-.game-footer button { font-size: .75rem; }
-body { padding-bottom: 42px; }
-body.companion-paused *, body.companion-paused *::before, body.companion-paused *::after { animation-play-state: paused !important; scroll-behavior: auto !important; transition: none !important; }
-@media (max-width:900px) { .hero { padding-top: 115px; padding-bottom: 55px; } .hero .container { gap: 2rem; } .autrin-studio { order: 0; margin: 0; max-width: 370px; } .mascot-stage { height: 285px; } .hero-mascot { width: 190px; height: 285px; } .stage-orbit { width: 230px; height: 230px; } }
-@media (max-width:480px) { .header .container { flex-direction: column; gap: 8px; } .nav-link { padding: .2rem 0; } .dock-mascot { width: 64px; height: 96px; } .dock-caption { display: none; } .companion-dock { right: 8px; bottom: 8px; } .puzzle-dialog { padding: 18px; } .stage-note { right: 3px; font-size: .65rem; } }
-@media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+:root {
+    --autrin-yellow: #f3c65b;
+    --autrin-art: url('assets/mini-autrin-shorts.png');
+}
+
+body[data-outfit="linen"] {
+    --autrin-art: url('assets/mini-autrin-linen.png');
+}
+
+body[data-outfit="yellow"] {
+    --autrin-art: url('assets/mini-autrin-yellow.png');
+}
+
+body[data-outfit="yellow"] .mascot[data-pose="idle"] {
+    background-position: 100% 0;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.mascot {
+    display: block;
+    width: 120px;
+    height: 180px;
+    background: var(--autrin-art) 0 0 / 300% 200% no-repeat;
+    border: 0;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+button.mascot {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    border-radius: 25%;
+}
+
+.mascot[data-pose="idle"] {
+    background-position: 0 0;
+}
+
+.mascot[data-pose="wave"] {
+    background-position: 50% 0;
+}
+
+.mascot[data-pose="wink"] {
+    background-position: 100% 0;
+}
+
+.mascot[data-pose="left"] {
+    background-position: 0 100%;
+}
+
+.mascot[data-pose="right"] {
+    background-position: 50% 100%;
+}
+
+.mascot[data-pose="sleep"] {
+    background-position: 100% 100%;
+}
+
+.companion-action {
+    font: inherit;
+    font-size: .85rem;
+    color: var(--text-primary);
+    background: #20242b;
+    border: 1px solid #444852;
+    border-radius: 7px;
+    padding: .55rem .8rem;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.companion-action:hover {
+    color: var(--autrin-yellow);
+    border-color: var(--autrin-yellow);
+}
+
+:is(.companion-action, .mascot, .circuit-switch, .outfit-choice, .roaming-autrin):focus-visible {
+    outline: 3px solid var(--autrin-yellow);
+    outline-offset: 5px;
+}
+
+.autrin-studio {
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    justify-self: center;
+    text-align: center;
+    padding: 22px 14px;
+    border: 1px solid #39382d;
+    border-radius: 24px;
+    background: radial-gradient(ellipse at 50% 45%, #37302055, transparent 70%), #14171b;
+    box-shadow: 0 24px 70px #0003;
+}
+
+.studio-label,
+.companion-eyebrow {
+    font-size: .7rem;
+    letter-spacing: .1em;
+    color: var(--autrin-yellow);
+}
+
+.studio-label span {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--autrin-yellow);
+    border-radius: 50%;
+    margin-right: 7px;
+}
+
+.mascot-stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 360px;
+}
+
+.hero-mascot {
+    width: 240px;
+    height: 360px;
+    z-index: 1;
+    transform: rotate(var(--lean, 0deg));
+    transition: transform .3s;
+}
+
+.stage-orbit {
+    position: absolute;
+    width: 270px;
+    height: 270px;
+    border: 1px dashed #746744;
+    border-radius: 50%;
+    transform: rotate(-18deg) scaleY(.85);
+}
+
+.stage-note {
+    position: absolute;
+    top: 40px;
+    right: 0;
+    color: #d1bd85;
+    font-size: .8rem;
+    transform: rotate(9deg);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.stage-note small {
+    font-size: .6rem;
+}
+
+.studio-speech {
+    min-height: 3.2em;
+    max-width: 310px;
+    margin: 0 auto 15px;
+    font-size: .95rem;
+}
+
+.studio-actions {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.studio-actions .companion-action {
+    background: transparent;
+}
+
+.project-hint {
+    text-align: center;
+    color: var(--text-secondary);
+    margin: -1.8rem auto 2.5rem;
+    max-width: 540px;
+}
+
+.project-card {
+    position: relative;
+}
+
+.project-card.featured::before {
+    position: static;
+    align-self: flex-start;
+    margin-bottom: 10px;
+}
+
+.project-header {
+    padding-right: 65px;
+    min-height: 58px;
+}
+
+.project-mascot {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    width: 60px;
+    height: 90px;
+    transition: transform .2s;
+}
+
+.project-card:hover .project-mascot {
+    transform: translateY(-4px) rotate(4deg);
+}
+
+.project-card .project-aside {
+    flex-grow: 0;
+    padding: .6rem .75rem;
+    margin: 0 0 1rem;
+    border-left: 2px solid var(--autrin-yellow);
+    color: #e6d19a;
+    font-size: .85rem;
+    background: #f3c65b08;
+}
+
+.companion-dock {
+    position: fixed;
+    right: 16px;
+    bottom: 12px;
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    pointer-events: none;
+}
+
+.companion-dock>* {
+    pointer-events: auto;
+}
+
+.dock-mascot {
+    width: 82px;
+    height: 123px;
+    filter: drop-shadow(0 5px 8px #0008);
+}
+
+.dock-caption {
+    background: #191d24;
+    border: 1px solid #494534;
+    border-radius: 20px;
+    padding: 2px 9px;
+    color: #e8d8b1;
+    font-size: .65rem;
+}
+
+.companion-panel {
+    width: min(290px, calc(100vw - 32px));
+    background: #1a1e25;
+    border: 1px solid #645639;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 12px 45px #0007;
+}
+
+.companion-panel p+p {
+    margin: 10px 0 14px;
+}
+
+.companion-actions {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.companion-restore {
+    position: fixed;
+    bottom: 12px;
+    right: 12px;
+    z-index: 1100;
+    font-size: .7rem;
+}
+
+.puzzle-dialog {
+    width: min(640px, calc(100vw - 28px));
+    max-height: calc(100dvh - 28px);
+    overflow: auto;
+    margin: auto;
+    border: 1px solid #75613a;
+    border-radius: 20px;
+    background: #14181f;
+    color: var(--text-primary);
+    padding: 24px;
+    font-family: inherit;
+}
+
+.puzzle-dialog::backdrop {
+    background: #05080cd9;
+    backdrop-filter: blur(8px);
+}
+
+.game-heading {
+    display: flex;
+    gap: 12px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.puzzle-dialog h2 {
+    font-size: 1.6rem;
+    line-height: 1.25;
+    margin-bottom: 12px;
+}
+
+#puzzle-instructions {
+    color: var(--text-secondary);
+    font-size: .9rem;
+}
+
+.puzzle-status {
+    color: var(--autrin-yellow);
+    margin: 18px 0 12px;
+}
+
+.circuit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    padding: 18px;
+    background: linear-gradient(#16282a88, #11222688), radial-gradient(#45514d 1px, transparent 1px) 0 0 / 18px 18px;
+    border-radius: 15px;
+    border: 1px solid #385048;
+    max-width: 370px;
+    margin: auto;
+}
+
+.circuit-switch {
+    position: relative;
+    min-height: 52px;
+    aspect-ratio: 1;
+    border: 1px solid #47534e;
+    border-radius: 9px;
+    background: #111b19;
+    color: #9aa9a2;
+    font: inherit;
+    font-size: .75rem;
+    cursor: pointer;
+    padding-top: 30px;
+    transition: background .15s, box-shadow .15s;
+}
+
+.circuit-switch::before {
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    top: 22%;
+    left: calc(50% - 7.5px);
+    background: #34493e;
+    border: 1px solid #4b6356;
+}
+
+.circuit-switch.lit {
+    background: #1c3d2b;
+    border-color: #64a779;
+    color: #daf1df;
+    box-shadow: inset 0 0 22px #64c8771a;
+}
+
+.circuit-switch.lit::before {
+    background: #a6f3ad;
+    box-shadow: 0 0 16px #91eb9299;
+    border-color: #d6ffdc;
+}
+
+.circuit-switch.hinted {
+    outline: 3px dashed var(--autrin-yellow);
+    outline-offset: 2px;
+}
+
+.circuit-switch:disabled {
+    cursor: default;
+}
+
+.puzzle-keyboard {
+    text-align: center;
+    font-size: .7rem;
+    color: var(--text-secondary);
+    margin: 12px 0 18px;
+}
+
+.puzzle-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.companion-action:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.outfit-picker {
+    border: 0;
+    margin: 0 0 18px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.outfit-picker legend {
+    width: 100%;
+    color: var(--text-secondary);
+    font-size: .7rem;
+    margin-bottom: 7px;
+}
+
+.outfit-choice {
+    background: #171c23;
+    color: #c1c9d3;
+    font: inherit;
+    font-size: .75rem;
+    padding: 7px 9px;
+    border: 1px solid #3a434d;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.outfit-choice[aria-pressed="true"] {
+    color: #f5d68b;
+    background: #342e1e;
+    border-color: #a08849;
+}
+
+.roaming-autrin {
+    position: fixed;
+    bottom: 8px;
+    left: 0;
+    z-index: 1090;
+    width: 82px;
+    height: 123px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    will-change: transform;
+}
+
+.walker-sprite {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url('assets/mini-autrin-walk.png') 0 0 / 400% 300% no-repeat;
+    filter: drop-shadow(0 3px 4px #0005);
+}
+
+body[data-outfit="linen"] .walker-sprite {
+    background-position-y: 50%;
+}
+
+body[data-outfit="yellow"] .walker-sprite {
+    background-position-y: 100%;
+}
+
+.game-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.game-mascot {
+    width: 65px;
+    height: 97.5px;
+}
+
+.game-footer p {
+    flex: 1;
+    font-size: .85rem;
+    color: #dbc58f;
+}
+
+.game-footer button {
+    font-size: .75rem;
+}
+
+body {
+    padding-bottom: 42px;
+}
+
+body.companion-paused *,
+body.companion-paused *::before,
+body.companion-paused *::after {
+    animation-play-state: paused !important;
+    scroll-behavior: auto !important;
+    transition: none !important;
+}
+
+@media (max-width:900px) {
+    .hero {
+        padding-top: 115px;
+        padding-bottom: 55px;
+    }
+
+    .hero .container {
+        gap: 2rem;
+    }
+
+    .autrin-studio {
+        order: 0;
+        margin: 0;
+        max-width: 370px;
+    }
+
+    .mascot-stage {
+        height: 285px;
+    }
+
+    .hero-mascot {
+        width: 190px;
+        height: 285px;
+    }
+
+    .stage-orbit {
+        width: 230px;
+        height: 230px;
+    }
+}
+
+@media (max-width:480px) {
+    .header .container {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .nav-link {
+        padding: .2rem 0;
+    }
+
+    .dock-mascot {
+        width: 64px;
+        height: 96px;
+    }
+
+    .dock-caption {
+        display: none;
+    }
+
+    .companion-dock {
+        right: 8px;
+        bottom: 8px;
+    }
+
+    .puzzle-dialog {
+        padding: 18px;
+    }
+
+    .stage-note {
+        right: 3px;
+        font-size: .65rem;
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+    }
+}

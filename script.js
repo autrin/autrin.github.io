@@ -76,8 +76,8 @@ function showNotification(message, type = 'info') {
 
   const bgColor =
     type === 'success' ? '#4ade80' :
-    type === 'error' ? '#f87171' :
-    '#60a5fa';
+      type === 'error' ? '#f87171' :
+        '#60a5fa';
 
   notification.style.cssText = `
     position: fixed;

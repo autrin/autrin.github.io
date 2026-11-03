@@ -160,8 +160,15 @@ body {
 }
 
 @keyframes subtleShift {
-    0%, 100% { transform: translate(0); }
-    50% { transform: translate(1px, -1px); }
+
+    0%,
+    100% {
+        transform: translate(0);
+    }
+
+    50% {
+        transform: translate(1px, -1px);
+    }
 }
 
 .hero-subtitle {
@@ -304,23 +311,59 @@ body {
     animation: nodePulse 2.5s ease-in-out infinite;
 }
 
-.node:nth-child(4) { top: 50px; left: 50px; }
-.node:nth-child(5) { top: 100px; left: 150px; animation-delay: 0.5s; }
-.node:nth-child(6) { top: 120px; left: 200px; animation-delay: 1s; }
+.node:nth-child(4) {
+    top: 50px;
+    left: 50px;
+}
+
+.node:nth-child(5) {
+    top: 100px;
+    left: 150px;
+    animation-delay: 0.5s;
+}
+
+.node:nth-child(6) {
+    top: 120px;
+    left: 200px;
+    animation-delay: 1s;
+}
 
 @keyframes circuitPulse {
-    0%, 100% { box-shadow: var(--glow-primary); }
-    50% { box-shadow: 0 0 30px rgba(74, 222, 128, 0.3); }
+
+    0%,
+    100% {
+        box-shadow: var(--glow-primary);
+    }
+
+    50% {
+        box-shadow: 0 0 30px rgba(74, 222, 128, 0.3);
+    }
 }
 
 @keyframes circuitFlow {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 @keyframes nodePulse {
-    0%, 100% { transform: scale(1); opacity: 0.7; }
-    50% { transform: scale(1.2); opacity: 1; }
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
 }
 
 /* Section Styles */
@@ -539,7 +582,7 @@ section {
     font-weight: 600;
 }
 
-.contact-info > p {
+.contact-info>p {
     color: var(--text-secondary);
     margin-bottom: 2rem;
     line-height: 1.7;
@@ -758,6 +801,7 @@ section {
         gap: 0.85rem;
     }
 }
+
 /* Gameplay preview in the portfolio project card. */
 .project-screenshot {
     display: block;
